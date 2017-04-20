@@ -29,6 +29,16 @@ class Shop
     private $name;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    private $url;
+
+    /**
+     * @ORM\Column(type="boolean", options={"default":0})
+     */
+    private $process;
+
+    /**
      * @return mixed
      */
     public function getName()
@@ -61,8 +71,18 @@ class Shop
     }
 
     /**
-     * @ORM\Column(type="string")
+     * @return mixed
      */
-    private $url;
+    public function getProcess()
+    {
+        return $this->process;
+    }
 
+    /**
+     * @param mixed $process
+     */
+    public function setProcess($process)
+    {
+        $this->process = $process;
+    }
 }

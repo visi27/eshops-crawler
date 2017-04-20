@@ -33,6 +33,11 @@ class ShopCategory
     private $url;
 
     /**
+     * @ORM\Column(type="boolean", options={"default":0})
+     */
+    private $process;
+
+    /**
      * @return mixed
      */
     public function getShop()
@@ -79,4 +84,22 @@ class ShopCategory
     {
         $this->url = $url;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getProcess()
+    {
+        return $this->process;
+    }
+
+    /**
+     * @param mixed $process
+     */
+    public function setProcess($process)
+    {
+        $this->process = $process;
+    }
+
+
 }
