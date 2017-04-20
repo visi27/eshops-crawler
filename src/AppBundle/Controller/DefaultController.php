@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Crawler\WebCrawler;
+use AppBundle\Entity\ShopCategory;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,13 +17,18 @@ class DefaultController extends Controller
     public function indexAction()
     {
 
-        $url = "https://dyqani.shpresa.al/celulare-47-c";
+        $em = $this->getDoctrine()->getManager();
+        $shop = $em->getRepository('AppBundle:Shop')->findOneBy(['id' => 1]);
 
-        $crawler = new WebCrawler($url);
-        $products = $crawler->getProducts();
-        $pages = $crawler->getPages();
+        $shopCategories = $em->getRepository('AppBundle:ShopCategory')->findBy(['shop' => 1, 'process' => 1]);
+//
+//        $url = "https://dyqani.shpresa.al/celulare-47-c";
+//
+//        $crawler = new WebCrawler($url);
+//        $products = $crawler->getProducts();
+//        $pages = $crawler->getPages();
 
         // replace this example code with whatever you need
-        return new Response("<pre>".print_r($pages, true)."</pre>");
+        return new Response("<pre>".print_r(count($shopCategories), true)."</pre>");
     }
 }
