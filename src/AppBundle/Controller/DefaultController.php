@@ -13,7 +13,7 @@ class DefaultController extends Controller
     /**
      * @Route("/", name="homepage")
      */
-    public function indexAction(Request $request)
+    public function indexAction()
     {
 
         $url = "https://dyqani.shpresa.al/celulare-47-c";
