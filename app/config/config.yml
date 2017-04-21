@@ -68,3 +68,18 @@ swiftmailer:
     username: '%mailer_user%'
     password: '%mailer_password%'
     spool: { type: memory }
+
+uecode_qpush:
+    providers:
+        my_provider:
+            driver: aws
+            key:    '%aws_key%'
+            secret: '%aws_secret%'
+            region: eu-central-1
+    queues:
+        eshops_pages:
+            provider: my_provider
+            options:
+                push_notifications: false
+                subscribers:
+                    - { endpoint: http://example.com/qpush, protocol: http }

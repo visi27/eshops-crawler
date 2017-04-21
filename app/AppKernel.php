@@ -2,6 +2,7 @@
 
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Uecode\Bundle\QPushBundle\UecodeQPushBundle;
 
 class AppKernel extends Kernel
 {
@@ -16,6 +17,7 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
+            new Uecode\Bundle\QPushBundle\UecodeQPushBundle(),
             new AppBundle\AppBundle(),
         ];
 
