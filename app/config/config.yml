@@ -83,3 +83,7 @@ uecode_qpush:
                 push_notifications: false
                 subscribers:
                     - { endpoint: http://example.com/qpush, protocol: http }
+easy_admin:
+    entities:
+      - AppBundle\Entity\Category
+      - AppBundle\Entity\Shop
