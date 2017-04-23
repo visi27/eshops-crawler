@@ -87,4 +87,9 @@ class Shop
     {
         $this->process = $process;
     }
+
+    public function __toString()
+    {
+        return $this->getName();
+    }
 }

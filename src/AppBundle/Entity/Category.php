@@ -80,4 +80,9 @@ class Category
     {
         $this->description = $description;
     }
+
+    public function __toString()
+    {
+        return $this->getName();
+    }
 }

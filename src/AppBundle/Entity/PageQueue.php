@@ -18,6 +18,11 @@ class PageQueue
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Shop")
+     */
+    private $shop;
+
+    /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ShopCategory")
      */
     private $shopCategory;
@@ -44,6 +49,23 @@ class PageQueue
 
     /**
      * @return mixed
+     */
+    public function getShop()
+    {
+        return $this->shop;
+    }
+
+    /**
+     * @param mixed $shop
+     */
+    public function setShop($shop)
+    {
+        $this->shop = $shop;
+    }
+
+
+    /**
+     * @return ShopCategory
      */
     public function getShopCategory()
     {
@@ -122,5 +144,11 @@ class PageQueue
         $this->processedDate = $processedDate;
     }
 
-
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 }

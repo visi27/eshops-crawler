@@ -4,6 +4,7 @@ namespace AppBundle\Command;
 
 use AppBundle\Crawler\WebCrawler;
 use AppBundle\Entity\PageQueue;
+use AppBundle\Entity\ShopCategory;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -24,6 +25,9 @@ class ProcessShopCategoryCommand extends ContainerAwareCommand
         $shopCategoryId = $input->getArgument('shop-category');
         $em = $this->getContainer()->get('doctrine')->getManager();
 
+        /**
+         * @var ShopCategory $shopCategory
+         */
         $shopCategory = $em->getRepository('AppBundle:ShopCategory')->findOneBy(['id' => $shopCategoryId]);
 
         $url = $shopCategory->getUrl();

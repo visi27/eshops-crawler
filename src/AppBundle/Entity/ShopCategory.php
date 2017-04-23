@@ -24,6 +24,7 @@ class ShopCategory
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Category")
+     * @var Category
      */
     private $category;
 
@@ -36,6 +37,14 @@ class ShopCategory
      * @ORM\Column(type="boolean", options={"default":0})
      */
     private $process;
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * @return mixed
@@ -101,5 +110,8 @@ class ShopCategory
         $this->process = $process;
     }
 
-
+    public function __toString()
+    {
+        return $this->category->__toString();
+    }
 }

@@ -10,7 +10,7 @@ parameters:
 
 framework:
     #esi: ~
-    #translator: { fallbacks: ['%locale%'] }
+    translator: { fallbacks: ["en"] }
     secret: '%secret%'
     router:
         resource: '%kernel.root_dir%/config/routing.yml'
@@ -84,6 +84,13 @@ uecode_qpush:
                 subscribers:
                     - { endpoint: http://example.com/qpush, protocol: http }
 easy_admin:
-    entities:
-      - AppBundle\Entity\Category
-      - AppBundle\Entity\Shop
+  site_name: eShops Crawler
+  entities:
+    Category:
+      class: AppBundle\Entity\Category
+    Shop:
+      class: AppBundle\Entity\Shop
+    ShopCategory:
+      class: AppBundle\Entity\ShopCategory
+    Pages:
+      class: AppBundle\Entity\PageQueue

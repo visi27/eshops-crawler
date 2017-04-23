@@ -23,22 +23,19 @@ class WebCrawler
 
     public function getProducts(){
         $products = array();
-        $pages = $this->getPages();
-        foreach ($pages as $page){
-            $this->crawler = $this->client->request('GET', $page);
 
-            $this->crawler->filter('div.product')->each(function ($node) use (&$products) {
-                /**
-                 * @var Crawler $node
-                 */
-                $name = $node->filter('div.description > h4 > a')->first()->text();
-                $price = $node->filter('div.price > span')->first()->text();
-                $description = $node->filter('div.description > p')->first()->html();
-                array_push($products, array("name"=>$name, "price"=> $price, "description" => $description));
-            });
-        }
+        $this->crawler->filter('div.product')->each(function ($node) use (&$products) {
+            /**
+             * @var Crawler $node
+             */
+            $name = $node->filter('div.description > h4 > a')->first()->text();
+            $price = $node->filter('div.price > span')->first()->text();
+            $description = $node->filter('div.description > p')->first()->html();
 
+            $link =  $node->filter('div.description > h4 > a')->links()[0]->getUri();
 
+            array_push($products, array("name"=>$name, "url"=>$link, "price"=> $price, "description" => $description));
+        });
 
         return $products;
     }
