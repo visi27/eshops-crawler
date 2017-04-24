@@ -33,6 +33,11 @@ class Shop
     private $process;
 
     /**
+     * @ORM\Column(type="string", length=20)
+     */
+    private $configKey;
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -86,6 +91,22 @@ class Shop
     public function setProcess($process)
     {
         $this->process = $process;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getConfigKey()
+    {
+        return $this->configKey;
+    }
+
+    /**
+     * @param mixed $configKey
+     */
+    public function setConfigKey($configKey)
+    {
+        $this->configKey = $configKey;
     }
 
     public function __toString()
