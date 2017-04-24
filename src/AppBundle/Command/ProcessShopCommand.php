@@ -4,6 +4,7 @@ namespace AppBundle\Command;
 
 use AppBundle\Crawler\WebCrawler;
 use AppBundle\Entity\PageQueue;
+use AppBundle\Entity\Shop;
 use AppBundle\Entity\ShopCategory;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -24,7 +25,11 @@ class ProcessShopCommand extends ContainerAwareCommand
     {
         $shopId = $input->getArgument('shop');
         $em = $this->getContainer()->get('doctrine')->getManager();
-        //$shop = $em->getRepository('AppBundle:Shop')->findOneBy(['id' => $shopId]);
+
+        /**
+         * @var Shop $shop
+         */
+        $shop = $em->getRepository('AppBundle:Shop')->findOneBy(['id' => $shopId]);
 
         $shopCategories = $em->getRepository('AppBundle:ShopCategory')->findBy(['shop' => $shopId, 'process' => 1]);
 
@@ -34,7 +39,11 @@ class ProcessShopCommand extends ContainerAwareCommand
         foreach ($shopCategories as $shopCategory){
             $url = $shopCategory->getUrl();
 
-            $crawler = new WebCrawler($url);
+            $crawler = $this->getContainer()->get("app.web_crawler");
+            $crawler->setUrl($url);
+
+            $crawler->setShopConfig($shop->getConfigKey());
+
             $pages = $crawler->getPages();
 
             foreach ($pages as $page){
