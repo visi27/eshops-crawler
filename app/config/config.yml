@@ -81,7 +81,6 @@ uecode_qpush:
         eshops_pages:
             provider: my_provider
             options:
-              queue_name: "eshops_pages"
               push_notifications: true
               subscribers:
                 - { endpoint: http://172.104.140.71/qpush, protocol: http }

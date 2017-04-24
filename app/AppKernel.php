@@ -2,7 +2,6 @@
 
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
-use Uecode\Bundle\QPushBundle\UecodeQPushBundle;
 
 class AppKernel extends Kernel
 {
