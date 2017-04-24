@@ -2,8 +2,9 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Crawler\WebCrawler;
-use AppBundle\Entity\ShopCategory;
+
+use Aws\Sns\Message;
+use Aws\Sns\MessageValidator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,8 +17,26 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        $test = $this->getParameter("shpresa_al");
-        return new Response("<pre>".print_r($test, true)."</pre>");
+        if ('POST' !== $_SERVER['REQUEST_METHOD']) {
+            http_response_code(405);
+            die;
+        }
+
+        try {
+            $message = Message::fromRawPostData();
+            $validator = new MessageValidator();
+            $validator->validate($message);
+
+            if (in_array($message['Type'], ['SubscriptionConfirmation', 'UnsubscribeConfirmation'])) {
+                file_get_contents($message['SubscribeURL']);
+            }
+
+            $this->get("logger")->notice($message['Message'] . "n");
+
+        } catch (\Exception $e) {
+            http_response_code(404);
+            die;
+        }
     }
 
     /**

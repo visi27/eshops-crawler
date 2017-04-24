@@ -4,8 +4,59 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b9b21a16fc8efaaa1e95a0a22abd3b46",
+    "content-hash": "4dbb89334a55e2da190df6008c769e91",
     "packages": [
+        {
+            "name": "aws/aws-php-sns-message-validator",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aws/aws-php-sns-message-validator.git",
+                "reference": "c9fce7635417bcc75383ec5f6fa3790a4d9729b8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aws/aws-php-sns-message-validator/zipball/c9fce7635417bcc75383ec5f6fa3790a4d9729b8",
+                "reference": "c9fce7635417bcc75383ec5f6fa3790a4d9729b8",
+                "shasum": ""
+            },
+            "require": {
+                "ext-openssl": "*",
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.0",
+                "squizlabs/php_codesniffer": "^2.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Aws\\Sns\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Amazon Web Services",
+                    "homepage": "http://aws.amazon.com"
+                }
+            ],
+            "description": "Amazon SNS message validation for PHP",
+            "homepage": "http://aws.amazon.com/sdkforphp",
+            "keywords": [
+                "SNS",
+                "amazon",
+                "aws",
+                "cloud",
+                "message",
+                "sdk",
+                "webhooks"
+            ],
+            "time": "2015-09-03T20:53:53+00:00"
+        },
         {
             "name": "aws/aws-sdk-php",
             "version": "3.26.2",
@@ -2906,74 +2957,6 @@
                 "templating"
             ],
             "time": "2017-04-21T00:13:02+00:00"
-        },
-        {
-            "name": "uecode/qpush-bundle",
-            "version": "2.2.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/uecode/qpush-bundle.git",
-                "reference": "907ce98ff12ecfc1079090b49f8f97d54096556a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/uecode/qpush-bundle/zipball/907ce98ff12ecfc1079090b49f8f97d54096556a",
-                "reference": "907ce98ff12ecfc1079090b49f8f97d54096556a",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/common": "~2.4",
-                "php": ">=5.4.0",
-                "symfony/config": "~2.3|^3.0",
-                "symfony/console": "~2.3|^3.0",
-                "symfony/dependency-injection": "~2.3|^3.0",
-                "symfony/http-kernel": "~2.3|^3.0",
-                "symfony/monolog-bundle": "~2.3|^3.0"
-            },
-            "require-dev": {
-                "aws/aws-sdk-php": "~2.5",
-                "iron-io/iron_mq": "^4.0",
-                "phpunit/phpunit": "~3.7",
-                "symfony/filesystem": "~2.3|^3.0",
-                "symfony/finder": "~2.3|^3.0"
-            },
-            "suggest": {
-                "aws/aws-sdk-php": "Required to use AWS as a Queue Provider",
-                "iron-io/iron_mq": "Required to use IronMQ as a Queue Provider",
-                "symfony/filesystem": "Required to use File as a Queue Provider",
-                "symfony/finder": "Required to use File as a Queue Provider"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Uecode\\Bundle\\QPushBundle\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache 2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Keith Kirk",
-                    "email": "kkirk@undergroundelephant.com",
-                    "homepage": "http://undergroundelephant.com",
-                    "role": "developer"
-                }
-            ],
-            "description": "Asynchronous processing for Symfony using Push Queues",
-            "homepage": "https://github.com/uecode/qpush-bundle",
-            "keywords": [
-                "asynch",
-                "aws",
-                "bundle",
-                "iron mq",
-                "pub-sub",
-                "push",
-                "qpush",
-                "symfony"
-            ],
-            "time": "2016-08-08T21:02:48+00:00"
         },
         {
             "name": "zendframework/zend-code",

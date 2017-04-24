@@ -21,7 +21,8 @@
     },
     "require": {
         "php": ">=5.5.9",
-        "aws/aws-sdk-php": "^3.26",
+        "aws/aws-php-sns-message-validator": "1.1.0",
+        "aws/aws-sdk-php": "3.26.2",
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/doctrine-cache-bundle": "^1.2",
         "doctrine/doctrine-migrations-bundle": "^1.2",
@@ -35,8 +36,7 @@
         "symfony/polyfill-apcu": "^1.0",
         "symfony/swiftmailer-bundle": "^2.3.10",
         "symfony/symfony": "3.2.*",
-        "twig/twig": "^1.0||^2.0",
-        "uecode/qpush-bundle": "~2.2.0"
+        "twig/twig": "^1.0||^2.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
