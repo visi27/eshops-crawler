@@ -33,11 +33,11 @@ class DefaultController extends Controller
 //        ];
 
         //$this->get('uecode_qpush.eshops_pages')->publish($message, $options);
-        $message = ['test' => 'First IN'];
+        $message = ['test' => '1'];
         $this->get('uecode_qpush.eshops_pages')->publish($message);
-        $message = ['test' => 'Second IN'];
+        $message = ['test' => '2'];
         $this->get('uecode_qpush.eshops_pages')->publish($message);
-        $message = ['test' => 'Third IN'];
+        $message = ['test' => '3'];
         $this->get('uecode_qpush.eshops_pages')->publish($message);
 
         return new Response("<html><body>"."Messages Sent"."</body></html>");
