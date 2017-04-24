@@ -7,6 +7,8 @@ services:
   app.web_crawler:
     class: AppBundle\Service\WebCrawler
     arguments: ['@service_container']
-    #service_name:
-    #    class: AppBundle\Directory\ClassName
-    #    arguments: ['@another_service_name', 'plain_value', '%parameter_name%']
+  process_message_service:
+          class: AppBundle\Service\ProcessMessage
+          arguments: ['@service_container']
+          tags:
+              - { name: uecode_qpush.event_listener, event: eshops_pages.message_received, method: onMessageReceived }
