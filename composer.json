@@ -21,8 +21,6 @@
     },
     "require": {
         "php": ">=5.5.9",
-        "aws/aws-php-sns-message-validator": "1.1.0",
-        "aws/aws-sdk-php": "3.26.2",
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/doctrine-cache-bundle": "^1.2",
         "doctrine/doctrine-migrations-bundle": "^1.2",
