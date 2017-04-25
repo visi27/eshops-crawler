@@ -17,6 +17,8 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
+        $this->get("logger")->notice("INDEX ACTION");
+
         if ('POST' !== $_SERVER['REQUEST_METHOD']) {
             http_response_code(405);
             die;
