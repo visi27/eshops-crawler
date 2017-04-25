@@ -2,10 +2,8 @@
 
 namespace AppBundle\Command;
 
-use AppBundle\Crawler\WebCrawler;
 use AppBundle\Entity\Product;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -26,7 +24,9 @@ class ProcessPagesQueueCommand extends ContainerAwareCommand
         $shop_id = $page->getShop();
         $category_id = $page->getShopCategory()->getCategory();
 
-        $crawler = new WebCrawler($page->getUrl());
+        $crawler = $this->getContainer()->get("app.web_crawler");
+        $crawler->setUrl($page->getUrl());
+
         $products = $crawler->getProducts();
 
         foreach ($products as $product){

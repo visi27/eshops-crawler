@@ -2,7 +2,6 @@
 
 namespace AppBundle\Command;
 
-use AppBundle\Crawler\WebCrawler;
 use AppBundle\Entity\PageQueue;
 use AppBundle\Entity\Shop;
 use AppBundle\Entity\ShopCategory;
@@ -45,16 +44,11 @@ class ProcessShopCommand extends ContainerAwareCommand
             $crawler->setShopConfig($shop->getConfigKey());
 
             $pages = $crawler->getPages();
+            $queue = $this->getContainer()->get("app.page_queue_mananger");
 
             foreach ($pages as $page){
                 $output->writeln("Adding url ".$page." to queue");
-                $pageQueue = new PageQueue();
-                $pageQueue->setProcessed(0);
-                $pageQueue->setShopCategory($shopCategory);
-                $pageQueue->setUrl($page);
-                $pageQueue->setQueuedDate(new \DateTime("now"));
-
-                $em->persist($pageQueue);
+                $queue->addPageToQueue($shopCategory, $page);
             }
 
             $shopCategory->setProcess(0);

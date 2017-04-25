@@ -2,7 +2,6 @@
 
 namespace AppBundle\Command;
 
-use AppBundle\Crawler\WebCrawler;
 use AppBundle\Entity\PageQueue;
 use AppBundle\Entity\ShopCategory;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -32,7 +31,8 @@ class ProcessShopCategoryCommand extends ContainerAwareCommand
 
         $url = $shopCategory->getUrl();
 
-        $crawler = new WebCrawler($url);
+        $crawler = $this->getContainer()->get("app.web_crawler");
+        $crawler->setUrl($url);
         $pages = $crawler->getPages();
 
         foreach ($pages as $page){

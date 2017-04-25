@@ -7,3 +7,6 @@ services:
   app.web_crawler:
     class: AppBundle\Service\WebCrawler
     arguments: ['@service_container']
+  app.page_queue_mananger:
+    class: AppBundle\Service\DoctrinePageQueue
+    arguments: ['@service_container']
