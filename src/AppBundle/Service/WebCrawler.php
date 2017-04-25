@@ -6,10 +6,20 @@ use Goutte\Client;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\DomCrawler\Crawler;
 
+/**
+ * Class WebCrawler
+ * Service to crawl configured eshops and extract product and categories.
+ * Before getting products or caegories be sure to call setShopConfig on this service.
+ *
+ * @package AppBundle\Service
+ */
 class WebCrawler
 {
     use ContainerAwareTrait;
 
+    /**
+     * @var string
+     */
     private $url;
 
     /**
@@ -22,13 +32,26 @@ class WebCrawler
      */
     private $client;
 
+    /**
+     * @var array
+     */
     private $shopConfig;
 
+    /**
+     * WebCrawler constructor.
+     * Inject container so we have access to symfony services.
+     * @param $container
+     */
     public function __construct($container)
     {
         $this->setContainer($container);
     }
 
+    /**
+     * Set initial crawl url and crawl it.
+     *
+     * @param string $url
+     */
     public function setUrl($url)
     {
         $this->url = $url;
@@ -37,6 +60,11 @@ class WebCrawler
         $this->crawler = $this->client->request('GET', $url);
     }
 
+    /**
+     * Get list of products from crawled page
+     *
+     * @return array Array with products
+     */
     public function getProducts()
     {
         if (empty($this->shopConfig)) {
@@ -71,6 +99,11 @@ class WebCrawler
         return $products;
     }
 
+    /**
+     * Get list of pages from given URL. Tries to get all pages by following paginator links
+     *
+     * @return array Array of page links
+     */
     public function getPages()
     {
         if (empty($this->shopConfig)) {
@@ -94,7 +127,7 @@ class WebCrawler
     }
 
     /**
-     * @return array
+     * @return array Shop configuration holding css selectors for a given shop.
      */
     public function getShopConfig()
     {
@@ -102,7 +135,7 @@ class WebCrawler
     }
 
     /**
-     * @param string $shopConfig
+     * @param string $shopConfig Configuration key from db. This is used to get css selectors from crawler.yml
      */
     public function setShopConfig($shopConfig)
     {
