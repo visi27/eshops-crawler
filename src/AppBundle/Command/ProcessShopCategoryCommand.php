@@ -35,7 +35,7 @@ class ProcessShopCategoryCommand extends ContainerAwareCommand
         $crawler->setUrl($url);
         $pages = $crawler->getPages();
 
-        foreach ($pages as $page){
+        foreach ($pages as $page) {
             $output->writeln("Adding url ".$page." to queue");
             $pageQueue = new PageQueue();
             $pageQueue->setProcessed(0);

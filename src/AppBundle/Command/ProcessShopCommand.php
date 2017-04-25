@@ -2,7 +2,6 @@
 
 namespace AppBundle\Command;
 
-use AppBundle\Entity\PageQueue;
 use AppBundle\Entity\Shop;
 use AppBundle\Entity\ShopCategory;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -15,7 +14,9 @@ class ProcessShopCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this->setName('app:process-shop');
-        $this->setDescription('Starts crawling a given shop by checking all categories to process and inserts resulting urls to page queue');
+        $this->setDescription(
+            'Starts crawling a given shop by checking all categories to process and inserts resulting urls to page queue'
+        );
 
         $this->addArgument('shop', InputArgument::REQUIRED, "Shop ID");
     }
@@ -35,7 +36,7 @@ class ProcessShopCommand extends ContainerAwareCommand
         /**
          * @var ShopCategory $shopCategory
          */
-        foreach ($shopCategories as $shopCategory){
+        foreach ($shopCategories as $shopCategory) {
             $url = $shopCategory->getUrl();
 
             $crawler = $this->getContainer()->get("app.web_crawler");
@@ -46,7 +47,7 @@ class ProcessShopCommand extends ContainerAwareCommand
             $pages = $crawler->getPages();
             $queue = $this->getContainer()->get("app.page_queue_mananger");
 
-            foreach ($pages as $page){
+            foreach ($pages as $page) {
                 $output->writeln("Adding url ".$page." to queue");
                 $queue->addPageToQueue($shopCategory, $page);
             }

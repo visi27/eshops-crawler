@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: evis
- * Date: 4/25/17
- * Time: 11:27 AM
- */
 
 namespace AppBundle\Service;
-
 
 use AppBundle\Entity\PageQueue;
 use AppBundle\Entity\ShopCategory;
@@ -38,7 +31,8 @@ class DoctrinePageQueue
      * @param ShopCategory $shopCategory
      * @param $pageUrl
      */
-    public function addPageToQueue(ShopCategory $shopCategory, $pageUrl){
+    public function addPageToQueue(ShopCategory $shopCategory, $pageUrl)
+    {
         $pageQueue = new PageQueue();
         $pageQueue->setProcessed(0);
         $pageQueue->setShopCategory($shopCategory);
