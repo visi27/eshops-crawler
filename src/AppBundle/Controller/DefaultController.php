@@ -14,33 +14,36 @@ use Symfony\Component\HttpFoundation\Response;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/test", name="homepage")
+     * @Route("/", name="homepage")
      */
     public function indexAction()
     {
-        $this->get("logger")->error("INDEX ACTION");
+//        $this->get("logger")->error("INDEX ACTION");
+//
+//        if ('POST' !== $_SERVER['REQUEST_METHOD']) {
+//            http_response_code(405);
+//            die;
+//        }
+//
+//        try {
+//            $message = Message::fromRawPostData();
+//            $validator = new MessageValidator();
+//            $validator->validate($message);
+//
+//            if (in_array($message['Type'], ['SubscriptionConfirmation', 'UnsubscribeConfirmation'])) {
+//                $subscribe_url = file_get_contents($message['SubscribeURL']);
+//                $this->get("logger")->error($subscribe_url);
+//            }
+//
+//            $this->get("logger")->error($message['Message'] . "n");
+//
+//        } catch (\Exception $e) {
+//            $this->get("logger")->error($e->getMessage());
+//            http_response_code(404);
+//            die;
+//        }
 
-        if ('POST' !== $_SERVER['REQUEST_METHOD']) {
-            http_response_code(405);
-            die;
-        }
-
-        try {
-            $message = Message::fromRawPostData();
-            $validator = new MessageValidator();
-            $validator->validate($message);
-
-            if (in_array($message['Type'], ['SubscriptionConfirmation', 'UnsubscribeConfirmation'])) {
-                file_get_contents($message['SubscribeURL']);
-            }
-
-            $this->get("logger")->error($message['Message'] . "n");
-
-        } catch (\Exception $e) {
-            $this->get("logger")->error($e->getMessage());
-            http_response_code(404);
-            die;
-        }
+        return new Response("", 200);
     }
 
     /**
