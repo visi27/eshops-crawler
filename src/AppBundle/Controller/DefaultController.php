@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 
 use Aws\Sns\Message;
 use Aws\Sns\MessageValidator;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,11 +14,11 @@ use Symfony\Component\HttpFoundation\Response;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/", name="homepage2", methods={"POST", "GET"})
+     * @Route("/test", name="homepage")
      */
     public function indexAction()
     {
-        $this->get("logger")->notice("INDEX ACTION");
+        $this->get("logger")->error("INDEX ACTION");
 
         if ('POST' !== $_SERVER['REQUEST_METHOD']) {
             http_response_code(405);
@@ -33,9 +34,10 @@ class DefaultController extends Controller
                 file_get_contents($message['SubscribeURL']);
             }
 
-            $this->get("logger")->notice($message['Message'] . "n");
+            $this->get("logger")->error($message['Message'] . "n");
 
         } catch (\Exception $e) {
+            $this->get("logger")->error($e->getMessage());
             http_response_code(404);
             die;
         }
