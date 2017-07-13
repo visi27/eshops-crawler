@@ -81,3 +81,5 @@ easy_admin:
       class: AppBundle\Entity\ShopCategory
     Pages:
       class: AppBundle\Entity\PageQueue
+    Product:
+      class: AppBundle\Entity\Product
