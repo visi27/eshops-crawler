@@ -38,6 +38,7 @@ class DoctrinePageQueue
         $pageQueue->setShopCategory($shopCategory);
         $pageQueue->setUrl($pageUrl);
         $pageQueue->setQueuedDate(new \DateTime("now"));
+        $pageQueue->setShop($shopCategory->getShop());
 
         $em = $this->container->get('doctrine')->getManager();
         $em->persist($pageQueue);

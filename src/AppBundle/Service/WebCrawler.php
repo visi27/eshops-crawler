@@ -3,7 +3,6 @@
 namespace AppBundle\Service;
 
 use Goutte\Client;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**
@@ -76,9 +75,9 @@ class WebCrawler
         }
 
         $name_selector = $this->shopConfig["product"]["name"];
-        $price_selector = $this->shopConfig["product"]["name"];
-        $desc_selector = $this->shopConfig["product"]["name"];
-        $link_selector = $this->shopConfig["product"]["name"];
+        $price_selector = $this->shopConfig["product"]["price"];
+        $desc_selector = $this->shopConfig["product"]["description"];
+        $link_selector = $this->shopConfig["product"]["link"];
 
         $products = array();
 

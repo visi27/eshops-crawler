@@ -3,6 +3,7 @@
 namespace AppBundle\Command;
 
 use AppBundle\Entity\Product;
+use AppBundle\Entity\Shop;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -21,10 +22,14 @@ class ProcessPagesQueueCommand extends ContainerAwareCommand
 
         $page = $em->getRepository('AppBundle:PageQueue')->findOneBy(['processed' => 0]);
 
-        $shop_id = $page->getShop();
+        /**
+         * @var Shop $shop
+         */
+        $shop = $page->getShop();
         $category_id = $page->getShopCategory()->getCategory();
 
         $crawler = $this->getContainer()->get("app.web_crawler");
+        $crawler->setShopConfig($shop->getConfigKey());
         $crawler->setUrl($page->getUrl());
 
         $products = $crawler->getProducts();
@@ -33,7 +38,7 @@ class ProcessPagesQueueCommand extends ContainerAwareCommand
             $productObject = new Product();
 
             $productObject->setCategory($category_id);
-            $productObject->setShop($shop_id);
+            $productObject->setShop($shop);
 
             $productObject->setName(trim($product["name"]));
             $productObject->setDescription(trim($product["description"]));
