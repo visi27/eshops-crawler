@@ -1,10 +1,11 @@
 parameters:
-  shpresa_al:
-    product:
-      name: 'div.description > h4 > a'
-      price: 'div.price > span'
-      description: 'div.description > p'
-      link: 'div.description > h4 > a'
-    pages:
-      selector: 'ul.pagination > li > a'
-      text: '»'
+  crawler_config_keys:
+    shpresa_al:
+      product:
+        name: 'div.description > h4 > a'
+        price: 'div.price > span'
+        description: 'div.description > p'
+        link: 'div.description > h4 > a'
+      pages:
+        selector: 'ul.pagination > li > a'
+        text: '»'
