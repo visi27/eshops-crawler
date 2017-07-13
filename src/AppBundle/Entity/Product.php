@@ -48,6 +48,11 @@ class Product
     private $url;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    private $imageUrl;
+
+    /**
      * @return Shop
      */
     public function getId()
@@ -143,6 +148,20 @@ class Product
         $this->url = $url;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getImageUrl()
+    {
+        return $this->imageUrl;
+    }
 
+    /**
+     * @param mixed $imageUrl
+     */
+    public function setImageUrl($imageUrl)
+    {
+        $this->imageUrl = $imageUrl;
+    }
 
 }
