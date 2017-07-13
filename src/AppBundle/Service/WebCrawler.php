@@ -15,8 +15,6 @@ use Symfony\Component\DomCrawler\Crawler;
  */
 class WebCrawler
 {
-    use ContainerAwareTrait;
-
     /**
      * @var string
      */
@@ -38,13 +36,19 @@ class WebCrawler
     private $shopConfig;
 
     /**
-     * WebCrawler constructor.
-     * Inject container so we have access to symfony services.
-     * @param $container
+     * @var array
      */
-    public function __construct($container)
+    private $parameters;
+
+    /**
+     * WebCrawler constructor.
+     * Inject crawler config keys array from parameters in crawler.yml.
+     * @param $parameters
+     */
+    public function __construct(array $parameters)
     {
-        $this->setContainer($container);
+
+        $this->parameters = $parameters;
     }
 
     /**
@@ -139,8 +143,9 @@ class WebCrawler
      */
     public function setShopConfig($shopConfig)
     {
-        if ($this->container->hasParameter($shopConfig)) {
-            $this->shopConfig = $this->container->getParameter($shopConfig);
+        if (array_key_exists($shopConfig, $this->parameters))
+        {
+            $this->shopConfig = $this->parameters[$shopConfig];
         } else {
             $this->shopConfig = array();
         }
