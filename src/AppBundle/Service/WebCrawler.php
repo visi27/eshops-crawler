@@ -78,11 +78,12 @@ class WebCrawler
         $price_selector = $this->shopConfig["product"]["price"];
         $desc_selector = $this->shopConfig["product"]["description"];
         $link_selector = $this->shopConfig["product"]["link"];
+        $image_selector = $this->shopConfig["product"]["image"];
 
         $products = array();
 
         $this->crawler->filter('div.product')->each(
-            function ($node) use (&$products, $name_selector, $price_selector, $desc_selector, $link_selector) {
+            function ($node) use (&$products, $name_selector, $price_selector, $desc_selector, $link_selector, $image_selector) {
                 /**
                  * @var Crawler $node
                  */
@@ -92,9 +93,16 @@ class WebCrawler
 
                 $link = $node->filter($link_selector)->links()[0]->getUri();
 
+                $image_url = $node ->filter($image_selector)->extract(array('src'));
+                if(count($image_url)>0){
+                    $image_url = $image_url[0];
+                }else{
+                    $image_url = "";
+                }
+
                 array_push(
                     $products,
-                    array("name" => $name, "url" => $link, "price" => $price, "description" => $description)
+                    array("name" => $name, "url" => $link, "price" => $price, "description" => $description, "image" => $image_url)
                 );
             }
         );
