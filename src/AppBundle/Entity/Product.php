@@ -53,6 +53,11 @@ class Product
     private $imageUrl;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    private $imageFileName;
+
+    /**
      * @return Shop
      */
     public function getId()
@@ -164,4 +169,19 @@ class Product
         $this->imageUrl = $imageUrl;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getImageFileName()
+    {
+        return $this->imageFileName;
+    }
+
+    /**
+     * @param mixed $imageFileName
+     */
+    public function setImageFileName($imageFileName)
+    {
+        $this->imageFileName = $imageFileName;
+    }
 }
