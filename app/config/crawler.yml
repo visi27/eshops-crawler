@@ -1,4 +1,5 @@
 parameters:
+  crawler_images_path: '%kernel.root_dir%/../cmd/images'
   crawler_config_keys:
     shpresa_al:
       product:
@@ -6,6 +7,7 @@ parameters:
         price: 'div.price > span'
         description: 'div.description > p'
         link: 'div.description > h4 > a'
+        image: 'div.product > div.image > a > img'
       pages:
         selector: 'ul.pagination > li > a'
         text: '»'
