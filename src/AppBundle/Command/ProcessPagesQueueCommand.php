@@ -13,7 +13,7 @@ class ProcessPagesQueueCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this->setName('app:process-pages-queue');
-        $this->setDescription('Get first page from queue and extracts prodicts from it.');
+        $this->setDescription('Get first page from queue and extracts products from it.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
