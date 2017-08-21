@@ -66,6 +66,15 @@ class Product
     }
 
     /**
+     * @return  Shop
+     */
+    public function getShop()
+    {
+       return $this->shop;
+    }
+
+
+    /**
      * @param Shop $shop
      */
     public function setShop($shop)
