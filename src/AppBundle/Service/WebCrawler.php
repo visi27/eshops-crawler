@@ -82,13 +82,23 @@ class WebCrawler
 
         $products = array();
 
-        $this->crawler->filter('div.product')->each(
+        $this->crawler->filter($this->shopConfig["product"]["css_filter"])->each(
             function ($node) use (&$products, $name_selector, $price_selector, $desc_selector, $link_selector, $image_selector) {
                 /**
                  * @var Crawler $node
                  */
                 $name = $node->filter($name_selector)->first()->text();
-                $price = $node->filter($price_selector)->first()->text();
+
+                $check_price = $node->filter($price_selector)->count();
+                if($check_price > 0){
+                    $price = $node->filter($price_selector)->first()->text();
+                }else{
+                    $price = 0; //Check for sale price
+                }
+
+                $price = preg_replace('/[^0-9.]+/', '', $price);
+                $price = str_replace('.', ',', $price);
+
                 $description = $node->filter($desc_selector)->first()->html();
 
                 $link = $node->filter($link_selector)->links()[0]->getUri();
@@ -121,13 +131,21 @@ class WebCrawler
             return array();
         }
 
-        $selector = $this->shopConfig["pages"]["selector"];
-        $text = $this->shopConfig["pages"]["text"];
+        if($this->shopConfig["pages"]["next_page_finder"] == "text"){
+            $selector = $this->shopConfig["pages"]["selector"];
+            $text = $this->shopConfig["pages"]["text"];
 
+            return $this->getPagesByNextPageLinkText($selector, $text);
+        }
+
+        return array();
+    }
+
+    private function getPagesByNextPageLinkText($selector, $text){
         $linksCrawler = $this->crawler;
         $pages = array();
         array_push($pages, $this->url);
-        while ($linksCrawler->filter($selector)->last()->text() == $text) {
+        while (strtolower(trim($linksCrawler->filter($selector)->last()->text())) == strtolower($text)) {
             $link = $linksCrawler->selectLink($text)->link();
             $url = $link->getUri();
             array_push($pages, $url);
@@ -136,6 +154,17 @@ class WebCrawler
 
         return $pages;
     }
+
+    // In this situation we find the current link and see if there is a page link after that.
+//    private function getPagesByNextLink($currentPage){
+//        $linksCrawler = $this->crawler;
+//        $pages = array();
+//        array_push($pages, $this->url);
+//
+//        while($linksCrawler->filter($currentPage)->nextAll()->text()){
+//
+//        }
+//    }
 
     /**
      * @return array Shop configuration holding css selectors for a given shop.
