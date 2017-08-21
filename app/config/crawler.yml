@@ -3,11 +3,29 @@ parameters:
   crawler_config_keys:
     shpresa_al:
       product:
+        css_filter: 'div.product'
         name: 'div.description > h4 > a'
         price: 'div.price > span'
+        sale_price: 'div.price > span'
         description: 'div.description > p'
         link: 'div.description > h4 > a'
         image: 'div.product > div.image > a > img'
       pages:
         selector: 'ul.pagination > li > a'
+        next_page_finder: 'text'
         text: '»'
+
+    neptun:
+      product:
+        css_filter: 'div.product-block'
+        name: 'div.product-meta > div.left > h3 > a'
+        price: 'div.price > div.price-box > span.regular-price > span.price'
+        sale_price: 'div.price > div.price-box > p.special-price > span.price'
+        old_price: 'div.price > div.price-box > p.old-price > span.price'
+        description: 'div.desc'
+        link: 'div.product-meta > div.left > h3 > a'
+        image: 'div.product-img > a > img'
+      pages:
+        selector: 'div.pages > ol > li > a'
+        next_page_finder: 'text'
+        text: 'Next'
