@@ -38,8 +38,10 @@ class ProcessShopCommand extends ContainerAwareCommand
          */
         foreach ($shopCategories as $shopCategory) {
             $url = $shopCategory->getUrl();
+            $shopCrawler = $this->getContainer()
+                ->getParameter("crawler_config_keys")[$shop->getConfigKey()]["crawler"];
 
-            $crawler = $this->getContainer()->get("app.web_crawler");
+            $crawler = $this->getContainer()->get($shopCrawler);
             $crawler->setUrl($url);
 
             $crawler->setShopConfig($shop->getConfigKey());

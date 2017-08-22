@@ -31,7 +31,10 @@ class ProcessShopCategoryCommand extends ContainerAwareCommand
 
         $url = $shopCategory->getUrl();
 
-        $crawler = $this->getContainer()->get("app.web_crawler");
+        $shopCrawler = $this->getContainer()
+            ->getParameter("crawler_config_keys")[$shop->getConfigKey()]["crawler"];
+
+        $crawler = $this->getContainer()->get($shopCrawler);
         $crawler->setUrl($url);
         $pages = $crawler->getPages();
 

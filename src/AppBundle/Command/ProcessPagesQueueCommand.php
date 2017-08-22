@@ -33,7 +33,10 @@ class ProcessPagesQueueCommand extends ContainerAwareCommand
             $shop = $page->getShop();
             $category_id = $page->getShopCategory()->getCategory();
 
-            $crawler = $this->getContainer()->get("app.web_crawler");
+            $shopCrawler = $this->getContainer()
+                ->getParameter("crawler_config_keys")[$shop->getConfigKey()]["crawler"];
+
+            $crawler = $this->getContainer()->get($shopCrawler);
             $crawler->setShopConfig($shop->getConfigKey());
             $crawler->setUrl($page->getUrl());
 
@@ -47,7 +50,8 @@ class ProcessPagesQueueCommand extends ContainerAwareCommand
 
                 $productObject->setName(trim($product["name"]));
                 $productObject->setDescription(trim($product["description"]));
-                $productObject->setPrice(floatval($product["price"]));
+                $productObject->setPrice($product["price"]);
+                $productObject->setSalePrice($product["salePrice"]);
                 $productObject->setUrl($product["url"]);
                 $productObject->setImageUrl($product["image"]);
 
