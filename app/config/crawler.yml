@@ -2,6 +2,7 @@ parameters:
   crawler_images_path: '%kernel.root_dir%/../cmd/images'
   crawler_config_keys:
     shpresa_al:
+      crawler: 'app.web_crawler'
       product:
         css_filter: 'div.product'
         name: 'div.description > h4 > a'
@@ -16,6 +17,23 @@ parameters:
         text: '»'
 
     neptun:
+      crawler: 'app.neptun_crawler'
+      product:
+        css_filter: 'div.product-block'
+        name: 'div.product-meta > div.left > h3 > a'
+        price: 'div.price > div.price-box > span.regular-price > span.price'
+        sale_price: 'div.price > div.price-box > p.special-price > span.price'
+        old_price: 'div.price > div.price-box > p.old-price > span.price'
+        description: 'div.desc'
+        link: 'div.product-meta > div.left > h3 > a'
+        image: 'div.product-img > a > img'
+      pages:
+        selector: 'div.pages > ol > li > a'
+        next_page_finder: 'text'
+        text: 'Next'
+
+    smartpoint:
+      crawler: 'app.neptun_crawler'
       product:
         css_filter: 'div.product-block'
         name: 'div.product-meta > div.left > h3 > a'
