@@ -68,7 +68,11 @@ class Neptun extends WebCrawler
                 $sale_price = preg_replace('/[^0-9]+/', '', $sale_price);
 
 
-                $description = $node->filter($desc_selector)->first()->html();
+                if($node->filter($desc_selector)->count() > 0){
+                    $description = $node->filter($desc_selector)->first()->html();
+                }else{
+                    $description = "";
+                }
 
                 $link = $node->filter($link_selector)->links()[0]->getUri();
 
