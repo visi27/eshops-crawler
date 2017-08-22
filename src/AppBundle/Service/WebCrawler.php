@@ -22,7 +22,7 @@ class WebCrawler
     /**
      * @var Crawler
      */
-    private $crawler;
+    protected $crawler;
 
     /**
      * @var Client
@@ -32,7 +32,7 @@ class WebCrawler
     /**
      * @var array
      */
-    private $shopConfig;
+    protected $shopConfig;
 
     /**
      * @var array
@@ -112,7 +112,7 @@ class WebCrawler
 
                 array_push(
                     $products,
-                    array("name" => $name, "url" => $link, "price" => $price, "description" => $description, "image" => $image_url)
+                    array("name" => $name, "url" => $link, "price" => $price, "salePrice" => 0, "description" => $description, "image" => $image_url)
                 );
             }
         );
@@ -154,17 +154,6 @@ class WebCrawler
 
         return $pages;
     }
-
-    // In this situation we find the current link and see if there is a page link after that.
-//    private function getPagesByNextLink($currentPage){
-//        $linksCrawler = $this->crawler;
-//        $pages = array();
-//        array_push($pages, $this->url);
-//
-//        while($linksCrawler->filter($currentPage)->nextAll()->text()){
-//
-//        }
-//    }
 
     /**
      * @return array Shop configuration holding css selectors for a given shop.
