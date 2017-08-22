@@ -38,9 +38,14 @@ class Product
     private $description;
 
     /**
-     * @ORM\Column(type="decimal", precision=6, scale=2)
+     * @ORM\Column(type="decimal", precision=10, scale=2)
      */
     private $price;
+
+    /**
+     * @ORM\Column(type="decimal", precision=10, scale=2)
+     */
+    private $salePrice;
 
     /**
      * @ORM\Column(type="string")
@@ -144,6 +149,22 @@ class Product
     public function setPrice($price)
     {
         $this->price = $price;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSalePrice()
+    {
+        return $this->salePrice;
+    }
+
+    /**
+     * @param mixed $salePrice
+     */
+    public function setSalePrice($salePrice)
+    {
+        $this->salePrice = $salePrice;
     }
 
     /**
