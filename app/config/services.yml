@@ -7,6 +7,9 @@ services:
   app.web_crawler:
     class: AppBundle\Service\WebCrawler
     arguments: ['%crawler_config_keys%']
+  app.neptun_crawler:
+    class: AppBundle\Service\Crawler\Neptun
+    arguments: ['%crawler_config_keys%']
   app.page_queue_mananger:
     class: AppBundle\Service\DoctrinePageQueue
     arguments: ['@service_container']
