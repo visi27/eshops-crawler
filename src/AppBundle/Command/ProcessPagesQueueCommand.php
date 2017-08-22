@@ -27,6 +27,7 @@ class ProcessPagesQueueCommand extends ContainerAwareCommand
         $page = $em->getRepository('AppBundle:PageQueue')->findOneBy(['processed' => 0]);
 
         while ($page){
+            $output->writeln("Processing page: ".$page);
             /**
              * @var Shop $shop
              */
@@ -41,7 +42,7 @@ class ProcessPagesQueueCommand extends ContainerAwareCommand
             $crawler->setUrl($page->getUrl());
 
             $products = $crawler->getProducts();
-
+            $output->writeln("Found ".count($products)." products on page. Persisting to DB");
             foreach ($products as $product){
                 $productObject = new Product();
 
