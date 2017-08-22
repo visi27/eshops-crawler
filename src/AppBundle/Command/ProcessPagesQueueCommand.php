@@ -27,7 +27,7 @@ class ProcessPagesQueueCommand extends ContainerAwareCommand
         $page = $em->getRepository('AppBundle:PageQueue')->findOneBy(['processed' => 0]);
 
         while ($page){
-            $output->writeln("Processing page: ".$page);
+            $output->writeln("Processing page: ".$page->getUrl());
             /**
              * @var Shop $shop
              */
@@ -84,7 +84,6 @@ class ProcessPagesQueueCommand extends ContainerAwareCommand
 
             $page = $em->getRepository('AppBundle:PageQueue')->findOneBy(['processed' => 0]);
         }
-
     }
 
     private function remoteFileExists($url) {
