@@ -63,7 +63,7 @@ class ShopCategory
     }
 
     /**
-     * @return mixed
+     * @return Category
      */
     public function getCategory()
     {
