@@ -27,11 +27,13 @@ class ProcessPagesQueueCommand extends ContainerAwareCommand
     {
         $this->setName('app:process-pages-queue');
         $this->setDescription('Get first page from queue and extracts products from it.');
-        $this->em = $this->getContainer()->get('doctrine')->getManager();
+
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->em = $this->getContainer()->get('doctrine')->getManager();
+
         // Save output interface reference to class property so it can be accessed by this classes methods
         $this->output = $output;
 
@@ -57,7 +59,6 @@ class ProcessPagesQueueCommand extends ContainerAwareCommand
 
     private function getNextPage(){
         return $this->em->getRepository('AppBundle:PageQueue')->findOneBy(['processed' => 0]);
-
     }
 
     private function persistProducts(PageQueue $page, array $products){
@@ -66,6 +67,7 @@ class ProcessPagesQueueCommand extends ContainerAwareCommand
         $category_id = $page->getShopCategory()->getCategory();
 
         foreach ($products as $product){
+            $this->output->writeln('<info>Persisting: "'.$product["name"].'" to DB</info>');
             $productObject = new Product();
 
             $productObject->setCategory($category_id);
