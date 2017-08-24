@@ -2,8 +2,10 @@
 
 namespace AppBundle\Command;
 
+use AppBundle\Entity\PageQueue;
 use AppBundle\Entity\Product;
 use AppBundle\Entity\Shop;
+use AppBundle\Service\WebCrawler;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -11,79 +13,96 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ProcessPagesQueueCommand extends ContainerAwareCommand
 {
+    /**
+     * @var ObjectManager
+     */
+    private $em;
+
+    /**
+     * @var OutputInterface
+     */
+    private $output;
+
     protected function configure()
     {
         $this->setName('app:process-pages-queue');
         $this->setDescription('Get first page from queue and extracts products from it.');
+        $this->em = $this->getContainer()->get('doctrine')->getManager();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /**
-         * @var ObjectManager $em
-         */
-        $em = $this->getContainer()->get('doctrine')->getManager();
+        // Save output interface reference to class property so it can be accessed by this classes methods
+        $this->output = $output;
 
-        $page = $em->getRepository('AppBundle:PageQueue')->findOneBy(['processed' => 0]);
-
-        while ($page){
+        while ($page = $this->getNextPage()){
             $output->writeln("Processing page: ".$page->getUrl());
-            /**
-             * @var Shop $shop
-             */
+
+            /** @var Shop $shop */
             $shop = $page->getShop();
-            $category_id = $page->getShopCategory()->getCategory();
 
             $shopCrawler = $this->getContainer()
                 ->getParameter("crawler_config_keys")[$shop->getConfigKey()]["crawler"];
 
+            /** @var WebCrawler $crawler */
             $crawler = $this->getContainer()->get($shopCrawler);
             $crawler->setShopConfig($shop->getConfigKey());
             $crawler->setUrl($page->getUrl());
 
             $products = $crawler->getProducts();
             $output->writeln("Found ".count($products)." products on page. Persisting to DB");
-            foreach ($products as $product){
-                $productObject = new Product();
-
-                $productObject->setCategory($category_id);
-                $productObject->setShop($shop);
-
-                $productObject->setName(trim($product["name"]));
-                $productObject->setDescription(trim($product["description"]));
-                $productObject->setPrice($product["price"]);
-                $productObject->setSalePrice($product["salePrice"]);
-                $productObject->setUrl($product["url"]);
-                $productObject->setImageUrl($product["image"]);
-
-                $fileName = basename($product["image"]);
-                //Save image to disk if we have one
-                if(!empty($fileName)){
-                    $imageFilePath = $this->getContainer()->getParameter('crawler_images_path')."/".$shop->getId()."/".$fileName;
-
-                    if($this->remoteFileExists($product["image"])){
-                        $file = file_get_contents($product["image"]);
-                        $insert = file_put_contents($imageFilePath, $file);
-                        if (!$insert) {
-                            $output->writeln('<error>Error writing image to: '.$imageFilePath.'</error>');
-                            $productObject->setImageUrl("");
-                        }
-                    }else{
-                        $output->writeln('<error>Error getting image: '.$product["image"].'</error>');
-                    }
-                }
-                $productObject->setImageFileName($fileName);
-
-                $em->persist($productObject);
-            }
-
-            $page->setProcessed(1);
-            $em->persist($page);
-
-            $em->flush();
-
-            $page = $em->getRepository('AppBundle:PageQueue')->findOneBy(['processed' => 0]);
+            $this->persistProducts($page, $products);
         }
+    }
+
+    private function getNextPage(){
+        return $this->em->getRepository('AppBundle:PageQueue')->findOneBy(['processed' => 0]);
+
+    }
+
+    private function persistProducts(PageQueue $page, array $products){
+        /** @var Shop $shop */
+        $shop = $page->getShop();
+        $category_id = $page->getShopCategory()->getCategory();
+
+        foreach ($products as $product){
+            $productObject = new Product();
+
+            $productObject->setCategory($category_id);
+            $productObject->setShop($shop);
+
+            $productObject->setName(trim($product["name"]));
+            $productObject->setDescription(trim($product["description"]));
+            $productObject->setPrice($product["price"]);
+            $productObject->setSalePrice($product["salePrice"]);
+            $productObject->setUrl($product["url"]);
+            $productObject->setImageUrl($product["image"]);
+
+            $fileName = basename($product["image"]);
+            //Save image to disk if we have one
+            if(!empty($fileName)){
+                $imageFilePath = $this->getContainer()->getParameter('crawler_images_path')."/".$shop->getId()."/".$fileName;
+
+                if($this->remoteFileExists($product["image"])){
+                    $file = file_get_contents($product["image"]);
+                    $insert = file_put_contents($imageFilePath, $file);
+                    if (!$insert) {
+                        $this->output->writeln('<error>Error writing image to: '.$imageFilePath.'</error>');
+                        $productObject->setImageUrl("");
+                    }
+                }else{
+                    $this->output->writeln('<error>Error getting image: '.$product["image"].'</error>');
+                }
+            }
+            $productObject->setImageFileName($fileName);
+
+            $this->em->persist($productObject);
+        }
+
+        $page->setProcessed(1);
+        $this->em->persist($page);
+
+        $this->em->flush();
     }
 
     private function remoteFileExists($url) {
