@@ -35,6 +35,7 @@ parameters:
     smartpoint:
       crawler: 'app.neptun_crawler'
       product:
+        container: 'div.category-products'
         css_filter: 'div.product-block'
         name: 'div.product-meta > div.left > h3 > a'
         price: 'div.price > div.price-box > span.regular-price > span.price'
