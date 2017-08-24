@@ -34,6 +34,13 @@ class Neptun extends WebCrawler
 
         $products = array();
 
+        // Check if we have configured a container for products (ex. a div encapsulationg all product elements).
+        // If so first extract the html of the given container as a new crawler and work on this to filter products
+        if(array_key_exists("container", $this->shopConfig["product"]) && !empty($this->shopConfig["product"]["container"])){
+            $this->crawler = $this->crawler->filter($this->shopConfig["product"]["container"]);
+        }
+
+
         $this->crawler->filter($this->shopConfig["product"]["css_filter"])->each(
             function ($node) use (&$products, $name_selector, $price_selector, $old_price_selector, $sale_price_selector, $desc_selector, $link_selector, $image_selector) {
                 /**
@@ -62,7 +69,6 @@ class Neptun extends WebCrawler
                         $sale_price = 0;
                     }
                 }
-
                 // Cleanup price and sale price
                 $price = preg_replace('/[^0-9]+/', '', $price);
                 $sale_price = preg_replace('/[^0-9]+/', '', $sale_price);
